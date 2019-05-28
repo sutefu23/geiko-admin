@@ -1,14 +1,18 @@
 <?php
+namespace GeikouApp;
+if (!defined('ABSPATH'))
+    exit;
 /*
 目的：
 アプリの投稿一覧をJsonで取得し、管理画面に一覧で表示します。
-
-機能：
 */
 if (!defined('ABSPATH'))
     exit;
+
+
 Class AppPostManager extends WP_List_Table
 {
+    use ApiBaseTrait;
     protected $posts;
     protected $url;
     public $post_num;

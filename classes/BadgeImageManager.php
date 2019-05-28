@@ -1,7 +1,10 @@
 <?php
+namespace GeikouApp;
 if (!defined('ABSPATH'))
     exit;
+
 class BadgeImageManager{
+    use ApiBaseTrait;
     function __construct(){
         add_action( 'admin_enqueue_scripts', array($this,'media_script_enqueue'));
         add_action( 'admin_menu', array($this , 'add_badge_admin_menu'));
@@ -151,21 +154,13 @@ class BadgeImageManager{
             die();
         }
         $image_ids = json_decode( rawurldecode($_POST['image_ids']),true);
-        dump_text(serialize($image_ids));
         update_option('badge_images',$image_ids);
+        $image_srcs = $this->get_badge_image_srcs();//get image src as array
+
+        $put_arr = $this->serialize($image_srcs);
+
+        $this->remote_put($put_arr);
         echo 'true';
     }
 }
 $BadgeImageManager = new BadgeImageManager();
-function dump_text($parameter,$key = null){
-    ob_start();
-    if($key){
-      echo $key ."\n";
-    }
-    var_dump($parameter);
-    $out = ob_get_contents();
-    $out = $out . "\n---------------" . date('Y-m-d H:n:s') . "------------\n";
-
-    ob_end_clean();
-    file_put_contents(dirname(__FILE__). "/debug.txt", $out, FILE_APPEND);
-}

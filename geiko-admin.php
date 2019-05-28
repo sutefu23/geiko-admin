@@ -11,23 +11,18 @@ License: GPL2
 if (!defined('ABSPATH'))
     exit;
 define( 'GEIKOADMIN_PLUGINPATH', plugin_dir_path( __FILE__ ) );
-define( 'GEIKOADMIN_APPAPI_URL', 'https://');
+define( 'GEIKOADMIN_DEBUG_MODE', true);
+
+if(GEIKOADMIN_DEBUG_MODE){
+    define( 'GEIKOADMIN_APPAPI_URL', 'http://54.65.245.167/');
+}else{
+    define( 'GEIKOADMIN_APPAPI_URL', 'https://');
+}
 
 if(!class_exists('WP_List_Table')){
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
+require_once dirname(__FILE__ ) . "/classes/ApiBaseTrait.php";
 require_once dirname(__FILE__ ) . "/classes/BadgeImageManager.php";
 
-$response = wp_remote_request( $url, [
-    'method' => 'PUT',
-    'body'  => $put_content,
-] );
-if(!is_wp_error( $response )){
-    $response['body'];
-}
-
-wp_remote_get($url);
-wp_remote_post($url ,[
-    'body'  => $post_arr,
-]);
