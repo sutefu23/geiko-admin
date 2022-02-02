@@ -11,7 +11,7 @@ trait ApiBaseTrait{
         return $this->_remote_request('GET',$get_arr , $this->url . '?' . $http_parameter);
     }
     public function remote_post($post_arr){
-        return $this->_remote_request('POST',$put_arr);
+        return $this->_remote_request('POST',$post_arr);
     }
     public function remote_put($put_arr){
         return $this->_remote_request('PUT',$put_arr);
@@ -39,7 +39,7 @@ trait ApiBaseTrait{
         if(get_option('badge_images')){
             $image_ids = get_option('badge_images');
             foreach ($image_ids as $image_id) {
-                $image_arr = $wp_get_attachment_image_src($image_id,'full',false)[0] ;
+                $image_arr = wp_get_attachment_image_src($image_id,'full',false)[0] ;
             }
         }
         return $image_arr;
